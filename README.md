@@ -78,7 +78,7 @@ Side note: This is time consuming. It takes about 10 minutes to convert 110M dat
 2. Use the Java code ([Process1.java](Process1.java)) to convert .csv files to .txt files.
 For example, you can convert the .csv files to .txt files using the absolute values of the EEG signals:
 ```
-java Process1.java <Sub1_Ses1_rwt_FFT.csv > Sub1_Ses1_rwt_FFT.txt;
+java Process1.java < Sub1_Ses1_tcr_FFT.csv > Sub1_Ses1_tcr_FFT.txt;
 ```
 3. As mentioned in the paper, we remove consecutive 1.4 seconds of anomaly in the datasets by executing [preprocess.m](preprocess.m) ([preprocess.m](preprocess.m) markes these anomalies to all 0s). 
 You can adjust the variable "plateau_threshold" to detect noise. 
@@ -97,6 +97,18 @@ The directory of the project should look like this:
 ```
 ├── Process1.java
 ├── TCR.py
+├── Visualization
+│   ├── data_raw
+│   │   ├── 105_tcr_s1.txt
+│   │   ├── 105_tcr_s2.txt
+       ……
+│   │   ├── 82_tcr_s5.txt
+│   │   └── 82_tcr_s6.txt
+│   ├── museClassify.m
+│   ├── museClassifyAll.m
+│   ├── musePlot.m
+│   ├── noise_plot.m
+│   └── overview.m
 ├── data_preprocess
 │   └── tcr_plateau_removed_data
 │       ├── tcr_subject_10_session_1.csv
@@ -104,11 +116,6 @@ The directory of the project should look like this:
        ……
 │       ├── tcr_subject_9_session_5.csv
 │       └── tcr_subject_9_session_6.csv
-├── data_raw
-│   ├── 105_tcr_s1.txt
-│   ├── 105_tcr_s2.txt
-     …….
-│   └── 82_tcr_s6.txt
 ├── output
 │   └── tcr
 │       ├── RandomForest_data_distribution.jpg
@@ -136,5 +143,19 @@ https://github.com/GuangyaoDou/EEG4Students/blob/d1cf8c07ea57d45ba22982c22d26b67
 You can adjust the remote participants id so that the output will generate
 the corresponding virtual participant's heatmap:
 https://github.com/GuangyaoDou/EEG4Students/blob/d1cf8c07ea57d45ba22982c22d26b67068d93740/TCR.py#L22
+
+# EEG Signal Visualization
+
+You can visualize EEG signals from 4 receptive fields and from five different frequencies (Gamma, Beta,
+Alpha, Theta, and Delta) by running [noise_plot.m](Visualization/noise_plot.m). You need to sepcify the session number and the id number.
+
+Also, running [overview.m](Visualization/overview.m) you can get an overview of main clustering data for the specified 
+data file. It shows the clusters and their specificity for each of the activities,
+the 4 meta-clusters and their specificity, and the acccuracy of prediction over all the data.
+
+Here is an example of executing the [overview.m](Visualization/overview.m):
+```
+overview('2_109_0417.txt', 12)
+```
 
 If you have any questions, please reach out to us: guangyaodou@brandeis.edu
